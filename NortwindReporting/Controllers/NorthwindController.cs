@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NorthwindService;
 using NortwindReporting.DTO;
 using NortwindReporting.Models;
 
@@ -11,23 +12,20 @@ namespace NortwindReporting.Controllers
     [ApiController]
     public class NorthwindController : ControllerBase
     {
-        public readonly NorthwindContext _northwindContext;
+        private readonly NorthwindContext _northwindContext;
+        private readonly INorthwindService _northwindService;
 
-        public NorthwindController(NorthwindContext northwindContext)
+        public NorthwindController(NorthwindContext northwindContext, INorthwindService northwindService)
         {
             _northwindContext = northwindContext;
+            _northwindService = northwindService;
         }
 
         [HttpGet]
         [Route("allCategories")]
         public async Task<IActionResult> GetAllCategories()
         {
-            var result = await _northwindContext.Categories
-                .Select(c => new
-                {
-                    c.CategoryId,
-                    c.CategoryName
-                }).ToListAsync();
+            var result = await _northwindService.GetAllCategoies();
                 
             return Ok(result);
         }

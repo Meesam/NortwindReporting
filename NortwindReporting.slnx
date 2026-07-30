@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="NorthiwindModels/NorthiwindModels.csproj" Id="ad867190-5c15-41f3-858b-069887cf54ba" />
+  <Project Path="NorthwindService/NorthwindService.csproj" Id="5b2bfa95-8f34-4e49-a308-b70c968dd5c2" />
+  <Project Path="NorthwindTest/NorthwindTest.csproj" Id="4b95c1a3-2e1c-4fe9-9e38-a48e678838be" />
   <Project Path="NortwindReporting/NortwindReporting.csproj" />
 </Solution>
