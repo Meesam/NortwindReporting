@@ -36,8 +36,8 @@ builder.Services.AddDbContext<NorthwindContext>(option=>
 );
 
 builder.Services.AddScoped<INorthwindService, NorthwindService.NorthwindService>();
-//builder.Services.AddScoped<ICacheService,CacheService>();
-builder.Services.AddScoped<ICacheService, RedisCacheService>();
+builder.Services.AddScoped<ICacheService,CacheService>();
+//builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 
 var app = builder.Build();
