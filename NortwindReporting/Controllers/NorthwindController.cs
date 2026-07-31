@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NorthiwindModels.DTO;
 using NorthwindService;
+using NorthwindService.Services;
 using NortwindReporting.DTO;
 using NortwindReporting.Models;
 
@@ -14,17 +16,21 @@ namespace NortwindReporting.Controllers
     {
         private readonly NorthwindContext _northwindContext;
         private readonly INorthwindService _northwindService;
+        private readonly TestSingletonService _testSingletonService;
 
-        public NorthwindController(NorthwindContext northwindContext, INorthwindService northwindService)
+        public NorthwindController(NorthwindContext northwindContext, INorthwindService northwindService, TestSingletonService testSingletonService)
         {
             _northwindContext = northwindContext;
             _northwindService = northwindService;
+            _testSingletonService = testSingletonService;
         }
 
         [HttpGet]
         [Route("allCategories")]
         public async Task<IActionResult> GetAllCategories()
         {
+            var singletonResponse = _testSingletonService.GetCartSize();
+
             var result = await _northwindService.GetAllCategoies();
                 
             return Ok(result);
@@ -34,6 +40,9 @@ namespace NortwindReporting.Controllers
         [Route("productWithUnitPriceIsGreaterThen30")]
         public async Task<IActionResult> GetProductWithUnitPriceIsGreaterThen30()
         {
+            _testSingletonService.CartSize = 20;
+            var singletonResponse = _testSingletonService.GetCartSize();
+
             var result = await _northwindContext.Products.Where(p=>p.UnitPrice > 30)
                 .Select(p => new ProductDto
                 {
@@ -49,6 +58,8 @@ namespace NortwindReporting.Controllers
         [Route("customerFrom_Germany_France_Brazil")]
         public async Task<IActionResult> GetCustomerFrom_Germany_France_Brazil()
         {
+            var singletonResponse = _testSingletonService.GetCartSize();
+
             var result = await _northwindContext.Customers
                 .Where(c => c.Country == "Germany" || c.Country == "France" || c.Country == "Brazil")
                 .Select(c=> new
