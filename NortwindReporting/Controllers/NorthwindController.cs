@@ -288,5 +288,12 @@ namespace NortwindReporting.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("TestEndPoint")]
+        public async Task<IActionResult> TestEndPoint()
+        {
+            return Ok("App is running");
+        }
+
     }
 }
