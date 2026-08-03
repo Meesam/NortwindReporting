@@ -289,7 +289,7 @@ namespace NortwindReporting.Controllers
         }
 
         [HttpGet]
-        [Route("TestEndPoint")]
+        [Route("TestEndPointWithTime")]
         public async Task<IActionResult> TestEndPoint()
         {
             return Ok($"App is running {DateTime.Now} ");
