@@ -292,7 +292,7 @@ namespace NortwindReporting.Controllers
         [Route("TestEndPoint")]
         public async Task<IActionResult> TestEndPoint()
         {
-            return Ok("App is running");
+            return Ok($"App is running {DateTime.Now} ");
         }
 
     }
