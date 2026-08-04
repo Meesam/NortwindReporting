@@ -19,14 +19,12 @@ namespace NorthwindService
         {
             if (_cacheService.GetCachedValue("categories", out List<CategoryDto> categories))
                 return categories;
-
             var result = await _northwindContext.Categories
                .Select(c => new CategoryDto
                {
                   CategoryId = c.CategoryId,
                   CategoryName =  c.CategoryName
                }).ToListAsync();
-
             _cacheService.SetCache("categories", result);
           
             return result;

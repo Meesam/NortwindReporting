@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using NorthwindService;
 using NorthwindService.Services;
+using NortwindReporting;
 using NortwindReporting.Models;
+using OpenAI;
 using Serilog;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,8 +49,23 @@ builder.Services.AddScoped<INorthwindService, NorthwindService.NorthwindService>
 builder.Services.AddScoped<ICacheService,CacheService>();
 //builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
+builder.Services.Configure<OpenAIOptions>(
+    builder.Configuration.GetSection("OpenAI"));
+
+builder.Services.AddSingleton(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+
+    var apiKey = config["OpenAI:ApiKey"]!;
+
+    return new OpenAIClient(apiKey);
+});
+
+builder.Services.AddScoped<IChatService, ChatService>();
+
 /*Testing how singleton service work*/
 builder.Services.AddScoped<TestSingletonService>();
+
 
 
 var app = builder.Build();
